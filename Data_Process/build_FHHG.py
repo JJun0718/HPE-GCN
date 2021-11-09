@@ -174,54 +174,54 @@ herb definitions begin
 #             item[i] = 1.
 #     herb_vector_dict[item[0]] = item[1:]
 
-xinwei_xls = pd.read_excel("../data/origin/zhongyaodatabase.xlsx")  # 读入表格
-name = xinwei_xls["中药名"].values.tolist()  # 获取药物名
-herb_vector_dict = {}  # 字典类型，key为药物名称，value为药性
-for index, med in enumerate(xinwei_xls.values):  # 循环量化整个表格
+xinwei_xls = pd.read_excel("../data/origin/zhongyaodatabase.xlsx")  # reading TCM-HPs data
+name = xinwei_xls["中药名"].values.tolist()  # Get herb name
+herb_vector_dict = {}  # Dictionary type, key: herb name, value: TCM-HPs
+for index, med in enumerate(xinwei_xls.values):  # Circulation of quantitative
     med_name = med[0]
     med_xinwei = list(range(23))
-    med_xinwei[0] = 2 if med[1] == "大寒" else 0
-    med_xinwei[0] = 1 if med[1] == "寒" else med_xinwei[0]
-    med_xinwei[0] = 0.5 if med[1] == "微寒" else med_xinwei[0]
-    med_xinwei[1] = 2 if med[2] == "大热" else 0
-    med_xinwei[1] = 1 if med[2] == "热" else med_xinwei[1]
-    med_xinwei[1] = 0.5 if med[2] == "微热" else med_xinwei[1]
-    med_xinwei[2] = 1 if med[3] == "温" else 0
-    med_xinwei[2] = 0.5 if med[3] == "微温" else med_xinwei[2]
-    med_xinwei[3] = 1 if med[4] == "凉" else 0
-    med_xinwei[3] = 0.5 if med[4] == "微凉" else med_xinwei[3]
-    med_xinwei[4] = 1 if med[5] == "平" else 0
-    med_xinwei[5] = 1 if med[6] == "酸" else 0
-    med_xinwei[5] = 0.5 if med[6] == "微酸" else med_xinwei[5]
-    med_xinwei[6] = 1 if med[7] == "苦" else 0
-    med_xinwei[6] = 0.5 if med[7] == "微苦" else med_xinwei[6]
-    med_xinwei[7] = 1 if med[8] == "甘" else 0
-    med_xinwei[7] = 0.5 if med[8] == "微甘" else med_xinwei[7]
-    med_xinwei[8] = 1 if med[9] == "辛" else 0
-    med_xinwei[8] = 0.5 if med[9] == "微辛" else med_xinwei[8]
-    med_xinwei[9] = 1 if med[10] == "咸" else 0
-    med_xinwei[9] = 0.5 if med[10] == "微咸" else med_xinwei[9]
-    med_xinwei[10] = 1 if med[11] == "肺" else 0
-    med_xinwei[11] = 1 if med[12] == "心包" else 0
-    med_xinwei[12] = 1 if med[13] == "心" else 0
-    med_xinwei[13] = 1 if med[14] == "大肠" else 0
-    med_xinwei[14] = 1 if med[15] == "三焦" else 0
-    med_xinwei[15] = 1 if med[16] == "小肠" else 0
-    med_xinwei[16] = 1 if med[17] == "胃" else 0
-    med_xinwei[17] = 1 if med[18] == "胆" else 0
-    med_xinwei[18] = 1 if med[19] == "膀胱" else 0
-    med_xinwei[19] = 1 if med[20] == "脾" else 0
-    med_xinwei[20] = 1 if med[21] == "肝" else 0
-    med_xinwei[21] = 1 if med[22] == "肾" else 0
-    med_xinwei[22] = 2 if med[23] == "大毒" else 0
-    med_xinwei[22] = 1 if med[23] == "有毒" else med_xinwei[22]
-    med_xinwei[22] = 0.5 if med[23] == "小毒" else med_xinwei[22]
+    med_xinwei[0] = 2 if med[1] == "大寒" else 0                  # severely cold
+    med_xinwei[0] = 1 if med[1] == "寒" else med_xinwei[0]        # cold
+    med_xinwei[0] = 0.5 if med[1] == "微寒" else med_xinwei[0]    # slightly cold
+    med_xinwei[1] = 2 if med[2] == "大热" else 0                  # severely hot
+    med_xinwei[1] = 1 if med[2] == "热" else med_xinwei[1]        # hot
+    med_xinwei[1] = 0.5 if med[2] == "微热" else med_xinwei[1]    # slightly hot
+    med_xinwei[2] = 1 if med[3] == "温" else 0                    # warm
+    med_xinwei[2] = 0.5 if med[3] == "微温" else med_xinwei[2]    # slightly warm
+    med_xinwei[3] = 1 if med[4] == "凉" else 0                    # cool
+    med_xinwei[3] = 0.5 if med[4] == "微凉" else med_xinwei[3]     # slightly cool
+    med_xinwei[4] = 1 if med[5] == "平" else 0                    # neutral
+    med_xinwei[5] = 1 if med[6] == "酸" else 0                    # sour
+    med_xinwei[5] = 0.5 if med[6] == "微酸" else med_xinwei[5]    # slightly sour
+    med_xinwei[6] = 1 if med[7] == "苦" else 0                    # bitter
+    med_xinwei[6] = 0.5 if med[7] == "微苦" else med_xinwei[6]    # slightly bitter
+    med_xinwei[7] = 1 if med[8] == "甘" else 0                    # sweet
+    med_xinwei[7] = 0.5 if med[8] == "微甘" else med_xinwei[7]     # slightly sweet
+    med_xinwei[8] = 1 if med[9] == "辛" else 0                    # pungent
+    med_xinwei[8] = 0.5 if med[9] == "微辛" else med_xinwei[8]     # slightly pungent
+    med_xinwei[9] = 1 if med[10] == "咸" else 0                    # salty
+    med_xinwei[9] = 0.5 if med[10] == "微咸" else med_xinwei[9]    # slightly salty
+    med_xinwei[10] = 1 if med[11] == "肺" else 0                   # lung
+    med_xinwei[11] = 1 if med[12] == "心包" else 0                 # pericardium
+    med_xinwei[12] = 1 if med[13] == "心" else 0                   # heart
+    med_xinwei[13] = 1 if med[14] == "大肠" else 0                 # large intestine
+    med_xinwei[14] = 1 if med[15] == "三焦" else 0                 # triple energizer
+    med_xinwei[15] = 1 if med[16] == "小肠" else 0                 # small intestine
+    med_xinwei[16] = 1 if med[17] == "胃" else 0                   # stomach
+    med_xinwei[17] = 1 if med[18] == "胆" else 0                   # gallbladder
+    med_xinwei[18] = 1 if med[19] == "膀胱" else 0                 # bladder
+    med_xinwei[19] = 1 if med[20] == "脾" else 0                   # spleen
+    med_xinwei[20] = 1 if med[21] == "肝" else 0                   # liver
+    med_xinwei[21] = 1 if med[22] == "肾" else 0                   # kidney
+    med_xinwei[22] = 2 if med[23] == "大毒" else 0                  # severely toxic
+    med_xinwei[22] = 1 if med[23] == "有毒" else med_xinwei[22]     # having toxic
+    med_xinwei[22] = 0.5 if med[23] == "小毒" else med_xinwei[22]   # slightly toxic
 
-    herb_vector_dict[med_name] = med_xinwei  # 将每一个药物存入med_xw_dic(字典)，并以药物名作为索引
+    herb_vector_dict[med_name] = med_xinwei  # Deposit each herb in "med_xw_dic", indexed by the drug name
 
 ret = [i for i in vocab if i not in name]
 if len(ret) != 0:
-    with open(f'../data/origin/{dataset}药物待查.txt', 'w', encoding='utf8') as f:
+    with open(f'../data/origin/{dataset}herbs in dispute.txt', 'w', encoding='utf8') as f:
         num = 0
         for herb in ret:
             f.write(herb + ' ')
