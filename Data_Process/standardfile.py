@@ -16,14 +16,14 @@ from config import CONFIG
 cfg = CONFIG()
 dataset = cfg.dataset
 
-dataset_file = f'../data/origin/buyi_exband.xlsx'
+dataset_file = f'../data/origin/buyi.xlsx'
 
 df = pd.read_excel(dataset_file, names=['name', 'labels', 'item'], dtype=str)
 
 df = df[['name', 'labels', 'item']]
 # print(df)
 
-index_split = len(df) * 0.9
+index_split = len(df) * 0.9 - 1
 
 # print(df[:10])
 

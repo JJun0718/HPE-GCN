@@ -227,4 +227,6 @@ formula_embeddings_str = '\n'.join(formula_vectors)
 with open('./data/' + dataset + '_formula_vectors.txt', 'w', encoding='utf8') as f:
     f.write(formula_embeddings_str)
 
+
+
 # plot_acc_loss(final_epoch)

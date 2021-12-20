@@ -174,7 +174,7 @@ herb definitions begin
 #             item[i] = 1.
 #     herb_vector_dict[item[0]] = item[1:]
 
-xinwei_xls = pd.read_excel("../data/origin/zhongyaodatabase.xlsx")  # reading TCM-HPs data
+xinwei_xls = pd.read_excel("../data/origin/zhongyaodatabase_exband.xlsx")  # reading TCM-HPs data
 name = xinwei_xls["中药名"].values.tolist()  # Get herb name
 herb_vector_dict = {}  # Dictionary type, key: herb name, value: TCM-HPs
 for index, med in enumerate(xinwei_xls.values):  # Circulation of quantitative
@@ -269,7 +269,7 @@ with open('../data/corpus/' + dataset + '_labels.txt', 'w', encoding='utf8') as 
 # x: feature vectors of training formulas, no initial features
 # slect 90% training set
 train_size = len(train_ids)
-val_size = int(0.1 * train_size)
+val_size = int(0.1 * train_size + 1)
 real_train_size = train_size - val_size  # - int(0.5 * train_size)
 # different training rates
 
@@ -492,7 +492,7 @@ for i in range(len(shuffle_formula_herbs_list)):
     pcdd_dict[shuffle_formula_herbs_list[i]]=PCDD
 
 
-print("sum1+sum2", sum1+sum2)
+# print("sum1+sum2", sum1+sum2)
 
 node_size = train_size + vocab_size + test_size
 adj = sp.csr_matrix(
@@ -519,3 +519,57 @@ with open("../data/ind.{}.ally".format(dataset), 'wb') as f:
 
 with open("../data/ind.{}.adj".format(dataset), 'wb') as f:
     pkl.dump(adj, f)
+
+#-------------------------feature extraction----------------------------
+row_feature_x = []
+col_feature_x = []
+data_feature_x = []
+for i in range(train_size):
+    doc_vec = np.array([0.0 for k in range(herb_embeddings_dim)])
+    doc_words = shuffle_formula_herbs_list[i]
+    words = doc_words.split()
+    doc_len = len(words)
+    for word in words:
+        if word in herb_vector_map:
+            word_vector = herb_vector_map[word]
+            # print(doc_vec)
+            # print(np.array(word_vector))
+            doc_vec = doc_vec + np.array(word_vector)
+
+    for j in range(herb_embeddings_dim):
+        row_feature_x.append(i)
+        col_feature_x.append(j)
+        # np.random.uniform(-0.25, 0.25)
+        data_feature_x.append(doc_vec[j] / doc_len)  # doc_vec[j]/ doc_len
+
+y = []
+for i in range(train_size):
+    doc_meta = shuffle_formula_name_list[i]
+    temp = doc_meta.split('\t')
+    label = temp[2]
+    one_hot = [0 for l in range(len(label_list))]
+    label_index = label_list.index(label)
+    one_hot[label_index] = 1
+    y.append(one_hot)
+y = np.array(y)
+
+# x = sp.csr_matrix((real_train_size, word_embeddings_dim), dtype=np.float32)
+train_feature = sp.csr_matrix((data_feature_x, (row_feature_x, col_feature_x)), shape=(
+    train_size, herb_embeddings_dim))
+
+train_feature = train_feature.todense()
+print(train_feature.shape)
+# print(train_feature)
+
+# save to excel
+train_data = pd.DataFrame(train_feature)
+train_label = pd.DataFrame(y)
+
+train_data.to_csv("../data/Eigenvector/train_data.csv", index=False)
+train_label.to_csv("../data/Eigenvector/train_label.csv", index=False)
+
+test_feature = tx.todense()
+test_data = pd.DataFrame(test_feature)
+test_label = pd.DataFrame(ty)
+test_data.to_csv("../data/Eigenvector/test_data.csv", index=False)
+test_label.to_csv("../data/Eigenvector/test_label.csv", index=False)
