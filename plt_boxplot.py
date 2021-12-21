@@ -30,5 +30,5 @@ df.plot(kind='box', fontsize = 'large')
 
 plt.ylabel("Accuracy", font2)  # Y label
 plt.grid(linestyle="--", alpha=0.3)
-plt.savefig('../Result/箱线图.png', dpi=600, format='png')
+plt.savefig('../Result/boxplot.png', dpi=600, format='png')
 plt.show()
