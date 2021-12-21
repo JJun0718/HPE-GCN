@@ -7,7 +7,6 @@ git remote add origin https://github.com/JJun0718/HPE-GCN。 git
  git push -u origin main
 
 
-
 # HPE-GCN
 
 This repository is the source code of paper: "HPE-GCN: predicting efficacy of tonic formulae via graph convolutional networks integrating traditionally defined herbal properties"
